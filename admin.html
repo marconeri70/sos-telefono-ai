@@ -6,17 +6,19 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport"
 
-<title>Pannello Emergenza</title>
+content="width=device-width,initial-scale=1">
+
+<title>Admin SOS Telefono AI</title>
 
 <style>
 
 body{
 
-font-family:Arial,sans-serif;
+font-family:Arial;
 
-background:#081626;
+background:#06111f;
 
 color:white;
 
@@ -34,17 +36,15 @@ margin:0;
 
 .box{
 
-width:350px;
+width:360px;
 
 padding:25px;
 
-border-radius:20px;
-
 background:#102840;
 
-text-align:center;
+border-radius:20px;
 
-box-shadow:0 0 30px rgba(0,0,0,.4);
+text-align:center;
 
 }
 
@@ -52,15 +52,15 @@ input{
 
 width:90%;
 
-padding:12px;
+padding:14px;
+
+font-size:18px;
+
+border-radius:12px;
 
 border:none;
 
-border-radius:10px;
-
 margin:20px 0;
-
-font-size:18px;
 
 }
 
@@ -72,17 +72,33 @@ padding:16px;
 
 font-size:18px;
 
-font-weight:bold;
+margin:8px 0;
 
 border:none;
 
 border-radius:12px;
 
-background:#e0002a;
+cursor:pointer;
 
 color:white;
 
-cursor:pointer;
+}
+
+.posizione{
+
+background:#0d8bff;
+
+}
+
+.furto{
+
+background:#e0002a;
+
+}
+
+.stop{
+
+background:#666;
 
 }
 
@@ -102,7 +118,7 @@ margin-top:20px;
 
 <h2>🛡️ SOS Telefono AI</h2>
 
-<p>Inserisci il PIN di emergenza</p>
+<p>Inserisci PIN</p>
 
 <input
 
@@ -114,9 +130,33 @@ placeholder="PIN"
 
 >
 
-<button onclick="attiva()">
+<button
 
-🚨 ATTIVA EMERGENZA
+class="posizione"
+
+onclick="richiediPosizione()">
+
+📍 Richiedi posizione
+
+</button>
+
+<button
+
+class="furto"
+
+onclick="attivaFurto()">
+
+🚨 Attiva Modalità Furto
+
+</button>
+
+<button
+
+class="stop"
+
+onclick="disattivaFurto()">
+
+🛑 Disattiva Modalità Furto
 
 </button>
 
@@ -128,29 +168,73 @@ placeholder="PIN"
 
 const PIN="4589";
 
-function attiva(){
+function verifica(){
 
-const valore=
+return document
 
-document.getElementById("pin").value;
+.getElementById("pin")
 
-if(valore===PIN){
-
-document.getElementById("msg")
-
-.innerHTML=
-
-"✅ Richiesta inviata";
-
-}else{
-
-document.getElementById("msg")
-
-.innerHTML=
-
-"❌ PIN errato";
+.value===PIN;
 
 }
+
+function richiediPosizione(){
+
+if(!verifica()){
+
+document.getElementById("msg")
+
+.innerHTML="❌ PIN errato";
+
+return;
+
+}
+
+document.getElementById("msg")
+
+.innerHTML=
+
+"📍 Richiesta posizione inviata";
+
+}
+
+function attivaFurto(){
+
+if(!verifica()){
+
+document.getElementById("msg")
+
+.innerHTML="❌ PIN errato";
+
+return;
+
+}
+
+document.getElementById("msg")
+
+.innerHTML=
+
+"🚨 Modalità Furto attivata";
+
+}
+
+function disattivaFurto(){
+
+if(!verifica()){
+
+document.getElementById("msg")
+
+.innerHTML="❌ PIN errato";
+
+return;
+
+}
+
+document.getElementById("msg")
+
+.innerHTML=
+
+"🛑 Modalità Furto disattivata";
 
 }
 
