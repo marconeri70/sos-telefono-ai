@@ -21,18 +21,16 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #06111f, #102a44);
       color: white;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 20px;
+      padding: 15px;
     }
 
     .box {
       width: 100%;
-      max-width: 480px;
+      max-width: 720px;
+      margin: auto;
       background: rgba(255,255,255,0.12);
       border-radius: 22px;
-      padding: 25px;
+      padding: 22px;
       text-align: center;
       box-shadow: 0 12px 35px rgba(0,0,0,0.4);
     }
@@ -52,7 +50,7 @@
       padding: 15px;
       border: none;
       border-radius: 14px;
-      margin: 18px 0;
+      margin: 14px 0;
       font-size: 18px;
       text-align: center;
     }
@@ -61,9 +59,9 @@
       width: 100%;
       border: none;
       border-radius: 15px;
-      padding: 16px;
-      margin: 8px 0;
-      font-size: 17px;
+      padding: 15px;
+      margin: 7px 0;
+      font-size: 16px;
       font-weight: bold;
       color: white;
       cursor: pointer;
@@ -90,8 +88,12 @@
       background: #009e58;
     }
 
+    .orange {
+      background: #ff9800;
+    }
+
     #msg {
-      margin-top: 18px;
+      margin-top: 15px;
       padding: 14px;
       border-radius: 14px;
       background: rgba(0,0,0,0.25);
@@ -100,23 +102,34 @@
       line-height: 1.5;
     }
 
-    .small {
-      margin-top: 18px;
-      font-size: 12px;
-      color: #b8d8ff;
+    .status-box {
+      margin: 15px 0;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(0,0,0,0.25);
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .normal {
+      color: #39ff88;
+    }
+
+    .theft {
+      color: #ff4d4d;
     }
 
     .map-title {
       margin-top: 22px;
       margin-bottom: 10px;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: bold;
       color: #ffffff;
     }
 
     #map {
       width: 100%;
-      height: 320px;
+      height: 420px;
       border-radius: 18px;
       overflow: hidden;
       margin-top: 10px;
@@ -130,7 +143,7 @@
       background: rgba(0,0,0,0.25);
       text-align: left;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .location-info a {
@@ -139,48 +152,75 @@
       font-weight: bold;
     }
 
-    .location-info a:hover {
-      text-decoration: underline;
+    .small {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #b8d8ff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    @media (min-width: 650px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="box">
+
     <h1>🛡️ SOS Telefono AI</h1>
 
     <p>
       Pannello riservato agli amici autorizzati.<br>
-      Inserisci il PIN e scegli un comando.
+      Da qui puoi richiedere la posizione, attivare la modalità furto e vedere l’ultima posizione sulla mappa.
     </p>
+
+    <div id="statusBox" class="status-box">
+      Stato: in caricamento...
+    </div>
 
     <input id="pin" type="password" placeholder="Inserisci PIN admin">
 
-    <button class="blue" onclick="inviaComando('request_location')">
-      📍 Richiedi posizione
-    </button>
+    <div class="grid">
+      <button class="blue" onclick="inviaComando('request_location')">
+        📍 Richiedi posizione
+      </button>
 
-    <button class="red" onclick="inviaComando('theft_on')">
-      🚨 Attiva Modalità Furto
-    </button>
+      <button class="red" onclick="inviaComando('theft_on')">
+        🚨 Attiva Modalità Furto
+      </button>
 
-    <button class="gray" onclick="inviaComando('theft_off')">
-      🛑 Disattiva Modalità Furto
-    </button>
+      <button class="gray" onclick="inviaComando('theft_off')">
+        🛑 Disattiva Modalità Furto
+      </button>
 
-    <button class="green" onclick="controllaStato()">
-      🔄 Controlla stato
-    </button>
+      <button class="green" onclick="controllaStato()">
+        🔄 Controlla stato
+      </button>
 
-    <button class="green" onclick="caricaUltimaPosizione()">
-      🗺️ Mostra ultima posizione su mappa
-    </button>
+      <button class="orange" onclick="caricaUltimaPosizione()">
+        🗺️ Aggiorna mappa
+      </button>
+
+      <button class="blue" onclick="centraMappa()">
+        🎯 Centra sulla bandierina
+      </button>
+    </div>
 
     <div id="msg">
       In attesa di comando...
     </div>
 
-    <div class="map-title">📍 Ultima posizione disponibile</div>
+    <div class="map-title">📍 Ultima posizione conosciuta</div>
+
     <div id="map"></div>
 
     <div id="locationInfo" class="location-info">
@@ -188,8 +228,10 @@
     </div>
 
     <div class="small">
-      Il PIN non è salvato in questa pagina: viene verificato dal Worker Cloudflare.
+      Il PIN non è salvato in questa pagina: viene verificato dal Worker Cloudflare.<br>
+      La mappa mostra l’ultima posizione inviata dall’app principale SOS Telefono AI.
     </div>
+
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -199,6 +241,8 @@
 
     let map;
     let marker;
+    let ultimaLat = null;
+    let ultimaLon = null;
 
     function initMap() {
       if (map) return;
@@ -243,15 +287,15 @@
         let testoComando = "";
 
         if (comando === "request_location") {
-          testoComando = "📍 Richiesta posizione inviata";
+          testoComando = "📍 Richiesta posizione inviata. Attendi che l’app principale risponda.";
         }
 
         if (comando === "theft_on") {
-          testoComando = "🚨 Modalità Furto attivata";
+          testoComando = "🚨 Modalità Furto attivata.";
         }
 
         if (comando === "theft_off") {
-          testoComando = "🛑 Modalità Furto disattivata";
+          testoComando = "🛑 Modalità Furto disattivata.";
         }
 
         msg.innerHTML =
@@ -259,6 +303,9 @@
           "Stato attuale: <b>" + dati.state.mode + "</b><br>" +
           "Comando: <b>" + dati.state.command + "</b><br>" +
           "ID comando: " + dati.state.commandId;
+
+        aggiornaBoxStato(dati.state);
+        setTimeout(caricaUltimaPosizione, 5000);
 
       } catch (errore) {
         msg.innerHTML = "❌ Errore collegamento Worker: " + errore.message;
@@ -279,6 +326,8 @@
           return;
         }
 
+        aggiornaBoxStato(dati.state);
+
         msg.innerHTML =
           "📡 Stato sistema<br><br>" +
           "Modalità: <b>" + dati.state.mode + "</b><br>" +
@@ -288,6 +337,23 @@
 
       } catch (errore) {
         msg.innerHTML = "❌ Errore collegamento Worker: " + errore.message;
+      }
+    }
+
+    function aggiornaBoxStato(state) {
+      const box = document.getElementById("statusBox");
+
+      if (!state) {
+        box.innerHTML = "Stato: non disponibile";
+        return;
+      }
+
+      if (state.mode === "theft") {
+        box.className = "status-box theft";
+        box.innerHTML = "🔴 MODALITÀ FURTO ATTIVA";
+      } else {
+        box.className = "status-box normal";
+        box.innerHTML = "🟢 MODALITÀ NORMALE";
       }
     }
 
@@ -302,7 +368,7 @@
         const dati = await risposta.json();
 
         if (!dati.ok || !dati.hasLocation) {
-          info.innerHTML = "⚠️ Nessuna posizione disponibile al momento.";
+          info.innerHTML = "⚠️ Nessuna posizione disponibile al momento. Apri l’app principale e premi INVIA POSIZIONE almeno una volta.";
           return;
         }
 
@@ -315,12 +381,22 @@
           return;
         }
 
+        ultimaLat = lat;
+        ultimaLon = lon;
+
         if (marker) {
           map.removeLayer(marker);
         }
 
-        marker = L.marker([lat, lon]).addTo(map);
-        marker.bindPopup("📍 Ultima posizione del telefono").openPopup();
+        const flagIcon = L.divIcon({
+          html: "🚩",
+          className: "custom-flag",
+          iconSize: [32, 32],
+          iconAnchor: [16, 32]
+        });
+
+        marker = L.marker([lat, lon], { icon: flagIcon }).addTo(map);
+        marker.bindPopup("🚩 Ultima posizione del telefono").openPopup();
 
         map.setView([lat, lon], 16);
 
@@ -336,8 +412,25 @@
       }
     }
 
+    function centraMappa() {
+      if (ultimaLat === null || ultimaLon === null) {
+        alert("Nessuna posizione da centrare.");
+        return;
+      }
+
+      map.setView([ultimaLat, ultimaLon], 17);
+
+      if (marker) {
+        marker.openPopup();
+      }
+    }
+
     initMap();
+    controllaStato();
     caricaUltimaPosizione();
+
+    setInterval(controllaStato, 30000);
+    setInterval(caricaUltimaPosizione, 30000);
   </script>
 
 </body>
