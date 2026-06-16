@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="it">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Pannello Emergenza</title>
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+background:#081626;
+
+color:white;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+margin:0;
+
+}
+
+.box{
+
+width:350px;
+
+padding:25px;
+
+border-radius:20px;
+
+background:#102840;
+
+text-align:center;
+
+box-shadow:0 0 30px rgba(0,0,0,.4);
+
+}
+
+input{
+
+width:90%;
+
+padding:12px;
+
+border:none;
+
+border-radius:10px;
+
+margin:20px 0;
+
+font-size:18px;
+
+}
+
+button{
+
+width:100%;
+
+padding:16px;
+
+font-size:18px;
+
+font-weight:bold;
+
+border:none;
+
+border-radius:12px;
+
+background:#e0002a;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+#msg{
+
+margin-top:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>🛡️ SOS Telefono AI</h2>
+
+<p>Inserisci il PIN di emergenza</p>
+
+<input
+
+id="pin"
+
+type="password"
+
+placeholder="PIN"
+
+>
+
+<button onclick="attiva()">
+
+🚨 ATTIVA EMERGENZA
+
+</button>
+
+<div id="msg"></div>
+
+</div>
+
+<script>
+
+const PIN="4589";
+
+function attiva(){
+
+const valore=
+
+document.getElementById("pin").value;
+
+if(valore===PIN){
+
+document.getElementById("msg")
+
+.innerHTML=
+
+"✅ Richiesta inviata";
+
+}else{
+
+document.getElementById("msg")
+
+.innerHTML=
+
+"❌ PIN errato";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>
