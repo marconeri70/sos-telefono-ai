@@ -1,6 +1,6 @@
 const CONFIG = {
 
-  pin: "6170",
+  pin: "4589",
 
   polling: 60000,
 
