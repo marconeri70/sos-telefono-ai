@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>SOS Telefono AI</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="manifest" href="manifest.webmanifest">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🛡️ SOS Telefono AI</h1>
+
+<div class="card">
+
+<h3>Stato Protezione</h3>
+
+<p id="gps">📍 GPS: In attesa...</p>
+
+<p id="battery">🔋 Batteria: --%</p>
+
+<p id="device">📱 Dispositivo: --</p>
+
+<p id="online">📶 Connessione: --</p>
+
+</div>
+
+<div class="buttons">
+
+<button onclick="attivaEmergenza()">
+
+🚨 ATTIVA EMERGENZA
+
+</button>
+
+<button onclick="testSirena()">
+
+🔊 TEST ALLARME
+
+</button>
+
+<button onclick="inviaPosizione()">
+
+📍 INVIA POSIZIONE
+
+</button>
+
+</div>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
