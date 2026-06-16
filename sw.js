@@ -1,4 +1,4 @@
-const CACHE_NAME = "sos-telefono-ai-v1";
+const CACHE_NAME = "sos-telefono-ai-v2";
 
 const FILES_TO_CACHE = [
   "./",
